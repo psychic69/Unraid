@@ -1,0 +1,28 @@
+Replace Hard Drive – v6
+
+Note: The data disks in SnapRaid’s config file must point to the drives PoolPart.xx folder and not to the root of the drive for the purposes of this tutorial and best SnapRaid / DrivePool integration.
+Example: disk d1 c:\mount\disk1\PoolPart.xxx…………..
+
+Shutdown computer (if drives are hot-swappable, just replace drive and skip to step #3)
+Replace hard drive and restart computer
+Drive to be replaced should be grayed out in Drivepool. Click on “Remove” (operation should be fast as Drivepool assumes drive is missing)
+Stop Drivepool service
+In Disk Management, format and rename new drive to same name as old drive and mount the drive in the storage folder
+Run Snapraid fix command
+• snapraid -d NAME -l fix.log fix (-l fix.log is optional)
+example: snapraid -d dx fix (where x is the drive number in the config file)
+The drive should be recreated exactly as it was except with no parity data or content file
+Start Drivepool service and add the new drive to the pool
+Go to newly re-created drive, move all of the drives folders/files into the PoolPart.xxx folder
+Stop the Drivepool service
+Edit the Snapraid config file, copy & paste the new PoolPart.xxx folder name into the path for the rebuilt drive
+• Example: disk d1 c:\mount\disk1\PoolPart.xxx.old folder
+change to:
+disk d1 c:\mount\disk1\PoolPart.yyy.new folder
+Run Snapraid check command
+• snapraid -d NAME -a check
+Example: snapraid -d dx –a check (where x is the drive number in the config file)
+Run Snapraid sync command
+• snapraid sync (or use sync.bat file)
+Restart Drivepool service
+Done!
